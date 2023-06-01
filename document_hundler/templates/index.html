@@ -1,0 +1,24 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+<main class="flex-grow-1">
+    <div class="container-lg mt-5">
+        <h1></h1>
+        <div class="row">
+            <div class="col-12 col-md-10 col-lg-9 mx-auto border rounded-3 bg-light p-5">
+            <p>Здесь вы сможете: </p>
+            <ul>
+                <li>Объединить несколько файлов Excel с одинковым набором полей в один файл</li>
+                <li>Объединить несколько файлов PDF в один файл, а также получить файл json с данными о именах объединенных файлов</li>
+            </ul>
+            <p>Для начала работы воспользуйтесь панелью управления для перехода к работе с необходимым форматом данных или перейдите по одной из ссылок:</p>
+            <ul>
+                <li><a href="{{ url_for('get_excel_hundler') }}">Работа с Excel файлами</a></li>
+                <li><a href="{{ url_for('get_pdf_hundler') }}">Работа с PDF файлами</a></li>
+            </ul>
+            <p>Далее следуйте указаниям из формы.</p>
+            </div>
+        </div> 
+    </div>
+</main>
+{% endblock %}
