@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 import document_hundler.excel_hundler.combine_excel as ce
 import document_hundler.pdf_hundler.combine_pdf as cp
 from document_hundler.save_and_validate import save, validate
+from werkzeug.utils import secure_filename
 from flask import (
     Flask,
     flash,
@@ -74,7 +75,9 @@ def get_merged_pdf():
     if not validate(pdf_files, '.pdf'):
         return redirect(url_for('get_pdf_hundler'))
 
-    save(pdf_files, path_to_save_pdf)
+    for file in pdf_files:
+        file_name = secure_filename(file.filename)
+        file.save(os.path.join(path_to_save_pdf, file_name))
 
     cp.combine_pdfs_and_make_json(
         pdf_input_dir,
