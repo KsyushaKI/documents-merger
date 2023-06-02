@@ -4,8 +4,7 @@ import os
 
 value_for_sort = 'Номер'
 excel_file_column_name = 'File_Name'
-path_to_save = 'document_hundler/excel_hundler/output_file'
-merged_file_name = 'merged_file.xlsx'
+path_to_output_file = f'{os.getcwd()}/document_hundler/excel_hundler/output_file/merged_file.xlsx'
 
 
 def merge_and_save_excels(xl_files):
@@ -22,7 +21,7 @@ def merge_and_save_excels(xl_files):
             combined = pd.concat([combined, data]).sort_values([value_for_sort])
 
     combined.to_excel(
-        os.path.join(path_to_save, merged_file_name),
+        path_to_output_file,
         sheet_name=all_sheet_names[0],
         index=False
     )
