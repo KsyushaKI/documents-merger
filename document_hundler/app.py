@@ -77,7 +77,8 @@ def get_merged_pdf():
 
     for file in pdf_files:
         file_name = secure_filename(file.filename)
-        file.save(os.path.join(path_to_save_pdf, file_name))
+        app.config['UPLOAD_FOLDER'] = path_to_save_pdf
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], file_name))
 
     cp.combine_pdfs_and_make_json(
         pdf_input_dir,
