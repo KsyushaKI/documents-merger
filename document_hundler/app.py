@@ -18,6 +18,15 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+current_dir = os.getcwd()
+pdf_input_dir = f'{current_dir}/document_hundler/pdf_hundler/input_files'
+pdf_output_dir = f'{current_dir}/document_hundler/pdf_hundler/output_files'
+pdf_output_zip_file = f'{current_dir}/document_hundler/pdf_hundler/output_zip/merged_pdf_with_jsone_data.zip'
+path_to_excel_result = f'{current_dir}/document_hundler/excel_hundler/output_file/merged_file.xlsx'
+path_to_pdf_result = f'{current_dir}/document_hundler/pdf_hundler/output_zip/merged_pdf_with_jsone_data.zip'
+path_to_save_pdf = f'{current_dir}/document_hundler/pdf_hundler/input_files'
+pdf_result_pack_size = 100000
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -50,9 +59,7 @@ def get_merget_excel():
         )
         return redirect(url_for('get_excel_hundler'))
 
-    path_to_result = 'excel_hundler/output_file/merged_file.xlsx'
-
-    return send_file(path_to_result, as_attachment=True)
+    return send_file(path_to_excel_result, as_attachment=True)
 
 
 @app.get('/pdf_hundler')
@@ -67,15 +74,15 @@ def get_merged_pdf():
     if not validate(pdf_files, '.pdf'):
         return redirect(url_for('get_pdf_hundler'))
 
-    save(pdf_files, 'document_hundler/pdf_hundler/input_files')
+    save(pdf_files, path_to_save_pdf)
 
-    try:
-        cp.combine_pdfs_and_make_json()
-    except:
-        flash('Что-то пошло не так', 'danger')
-        return redirect(url_for('get_pdf_hundler'))
+    cp.combine_pdfs_and_make_json(
+        pdf_input_dir,
+        pdf_output_dir,
+        pdf_output_zip_file,
+        pdf_result_pack_size
+    )
 
-    cp.clean_created_data()
-    path_to_result = 'pdf_hundler/output_zip/merged_pdf_with_jsone_data.zip'
+    cp.clean_created_data(pdf_input_dir, pdf_output_dir)
 
-    return send_file(path_to_result, as_attachment=True)
+    return send_file(path_to_pdf_result, as_attachment=True)
