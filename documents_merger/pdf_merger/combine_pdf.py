@@ -2,8 +2,7 @@ import os
 from PyPDF2 import PdfMerger
 
 
-path_to_output_file = (f'{os.getcwd()}/'
-                       f'documents_merger/pdf_merger/merged.pdf')
+path_to_output_file = f'{os.getcwd()}/documents_merger/pdf_merger/merged.pdf'
 
 
 def merge_and_save_pdf(pdf_files):

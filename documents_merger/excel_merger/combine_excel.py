@@ -2,8 +2,7 @@ import pandas as pd
 import os
 
 
-path_to_output_file = (f'{os.getcwd()}/'
-                       f'documents_merger/excel_merger/merged.xlsx')
+path_to_output_file = f'{os.getcwd()}/documents_merger/excel_merger/merged.xlsx'
 
 
 def merge_and_save_excels(xl_files):
