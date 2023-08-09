@@ -1,8 +1,8 @@
 import os
 from dotenv import load_dotenv
-import document_hundler.excel_hundler.combine_excel as ce
-import document_hundler.pdf_hundler.combine_pdf as cp
-from document_hundler.save_and_validate import save, validate
+import documents_merger.excel_merger.combine_excel as ce
+import documents_merger.pdf_merger.combine_pdf as cp
+from documents_merger.validate import validate
 from flask import (
     Flask,
     flash,
@@ -35,7 +35,7 @@ def get_excel_hundler():
 
 
 @app.post('/excel_hundler/downland')
-def get_merget_excel():
+def get_merged_excel():
     xl_files = request.files.getlist('excelfile')
 
     if not validate(xl_files, '.xlsx'):
@@ -43,14 +43,12 @@ def get_merget_excel():
 
     try:
         ce.merge_and_save_excels(xl_files)
-    except:
-        flash(
-            'Отсутствует столбец "Номер" или что-то пошло не так',
-            'danger'
-        )
+        return send_file(ce.path_to_output_file, as_attachment=True)
+    except Exception:
+        flash('Что-то пошло не так', 'danger')
         return redirect(url_for('get_excel_hundler'))
-
-    return send_file(ce.path_to_output_file, as_attachment=True)
+    finally:
+        os.remove(ce.path_to_output_file)
 
 
 @app.get('/pdf_hundler')
@@ -61,14 +59,15 @@ def get_pdf_hundler():
 @app.post('/pdf_hundler/downland')
 def get_merged_pdf():
     pdf_files = request.files.getlist('pdffile')
-    save(pdf_files, cp.input_dir)
+
+    if not validate(pdf_files, '.pdf'):
+        return redirect(url_for('get_pdf_hundler'))
 
     try:
-        cp.combine_pdfs_and_make_json()
-    except:
+        cp.merge_and_save_pdf(pdf_files)
+        return send_file(cp.path_to_output_file, as_attachment=True)
+    except Exception:
         flash('Что-то пошло не так', 'danger')
         return redirect(url_for('get_pdf_hundler'))
     finally:
-        cp.clean_created_data(cp.input_dir, cp.output_dir)
-
-    return send_file(cp.output_zip_file, as_attachment=True)
+        os.remove(cp.path_to_output_file)

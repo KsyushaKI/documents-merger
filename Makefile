@@ -1,9 +1,9 @@
 dev:
-	poetry run flask --app document_hundler:app --debug run
+	poetry run flask --app documents_merger:app --debug run
 
 PORT ?= 8000
 start:
-	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) document_hundler:app
+	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) documents_merger:app
 
 install:
 	poetry install

@@ -1,0 +1,22 @@
+{% extends 'base_template.html' %}
+
+{% block content %}
+<div class="container wrapper flex-grow-1">
+    <div class="container-lg mt-4">
+        <div class="card">
+            <div class="card-body p-4 bg-light">
+                <h1 class="my-4 display-4">PDF</h1>
+                <form action="{{ url_for('get_merged_pdf') }}" method=post enctype=multipart/form-data class="input-group mb-3">
+                    <input type=file name=pdffile multiple accept=".pdf" required class="form-control" id="inputGroupFile02">
+                    <button type=submit class="btn btn-dark" id="inputGroupFileAddon03">Объединить</button>
+                </form> 
+                <hr>
+                <p>Выберете несколько файлов формата .pdf и затем нажмите на кнопку "Объединить".</p>
+                <p>* Порядок объединения зависит от порядка выбора файлов;</p>
+                <p>* Все необходимые файлы должны находиться в одной и той же папке;</p>
+                <p>* При выборе зажмите <kbd>Ctrl</kbd>(Windows) / <kbd>cmd</kbd>(Mac), а затем кликайте на каждый необходимый файл, чтобы его отметить, после завершения нажмите на кнопку "Открыть".</p>
+            </div> 
+        </div>
+    </div>
+</div>
+{% endblock %}
