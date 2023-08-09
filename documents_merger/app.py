@@ -47,6 +47,8 @@ def get_merged_excel():
     except Exception:
         flash('Что-то пошло не так', 'danger')
         return redirect(url_for('get_excel_hundler'))
+    finally:
+        os.remove(ce.path_to_output_file)
 
 
 @app.get('/pdf_hundler')
@@ -67,3 +69,5 @@ def get_merged_pdf():
     except Exception:
         flash('Что-то пошло не так', 'danger')
         return redirect(url_for('get_pdf_hundler'))
+    finally:
+        os.remove(cp.path_to_output_file)

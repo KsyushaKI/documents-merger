@@ -3,7 +3,7 @@ import os
 
 
 path_to_output_file = (f'{os.getcwd()}/'
-                       f'documents_merger/excel_merger/output_file/merged.xlsx')
+                       f'documents_merger/excel_merger/merged.xlsx')
 
 
 def merge_and_save_excels(xl_files):
